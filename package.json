@@ -1,0 +1,72 @@
+{
+  "name": "滚上去",
+  "description": "manifest.json description",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "postinstall": "wxt prepare",
+    "lint": "npx --no -- lint-staged",
+    "prepare": "husky",
+    "eslint": "eslint --fix",
+    "lint:style": "stylelint --fix"
+  },
+  "dependencies": {
+    "less": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "@wxt-dev/module-react": "^1.1.0",
+    "commitlint": "^19.3.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.31.8",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "stylelint": "^16.1.0",
+    "stylelint-config-css-modules": "^4.4.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-order": "^6.0.4",
+    "typescript": "^5.5.4",
+    "wxt": "^0.19.1"
+  },
+  "lint-staged": {
+    "entrypoints/**/*.{js,jsx,tsx,ts}": [
+      "npm run eslint",
+      "git add ."
+    ],
+    "entrypoints/**/*.{less,css,scss}": [
+      "npm run lint:style",
+      "git add ."
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "echo 'git commit trigger husky pre-commit hook' ",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "volta": {
+    "node": "18.19.1"
+  },
+  "engines": {
+    "node": ">=18.19.1"
+  }
+}
