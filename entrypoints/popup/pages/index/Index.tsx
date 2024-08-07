@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import styles from './index.module.less';
-import { Button, Switch } from 'antd';
+import { Button, message, Switch } from 'antd';
 import { ALLOWDOMAINLIST } from '@/contants';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Tabs } from 'wxt/browser';
 
 const Index = () => {
   const navigate = useNavigate();
   const [switchOpen, setSwitchOpen] = useState(false);
   const [domain, setDomain] = useState('');
   const [allowList, setAllowList] = useState<string[]>([]);
+  const [currentTab, setCurrentTab] = useState<Tabs.Tab>();
 
   const initTabInfo = async () => {
     const tabs = await browser.tabs.query({
@@ -17,6 +19,7 @@ const Index = () => {
     });
     const currentTab = tabs[0]; // 获取当前活动标签页
     const url = new URL(currentTab.url!); // 解析 URL
+    setCurrentTab(currentTab);
     setDomain(url.hostname);
   };
 
@@ -32,6 +35,9 @@ const Index = () => {
 
   useEffect(() => {
     setSwitchOpen(allowList.includes(domain));
+    if (currentTab?.id) {
+      browser.tabs.sendMessage(currentTab.id, { message: 'changeAllow' });
+    }
   }, [allowList]);
 
   const switchClick = async () => {
@@ -70,6 +76,7 @@ const Index = () => {
           </Button>
         </div>
       </div>
+      <div>配置项</div>
     </div>
   );
 };
