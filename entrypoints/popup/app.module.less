@@ -1,4 +1,43 @@
 .appBox {
-  font-size: 2rem;
-  color: red;
+  height: 100%;
+
+  .headerBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .appMain {
+    padding: 12px;
+
+    .switchWrap {
+      border-radius: 12px;
+      padding: 12px 32px;
+      background-color: #f5f5f5;
+
+      .switchBox {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .manualBox {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 4px;
+
+        .manualBtn {
+          padding: 0;
+        }
+      }
+
+      .grayColor {
+        color: #666;
+      }
+    }
+  }
 }

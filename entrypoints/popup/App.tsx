@@ -1,35 +1,49 @@
-import { useState } from 'react';
-import reactLogo from '@/assets/react.svg';
-import wxtLogo from '/wxt.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
 import styles from './app.module.less';
+import { Button, Switch } from 'antd';
 
 function App() {
   const [count, setCount] = useState(0);
+  const [switchOpen, setSwitchOpen] = useState(false);
+  const [domain, setDomain] = useState('');
+
+  const initTabInfo = async () => {
+    const tabs = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+    const currentTab = tabs[0]; // 获取当前活动标签页
+    const url = new URL(currentTab.url!); // 解析 URL
+    setDomain(url.hostname);
+  };
+
+  useEffect(() => {
+    initTabInfo();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://wxt.dev" target="_blank" rel="noreferrer">
-          <img src={wxtLogo} className="logo" alt="WXT logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className={styles.appBox}>WXT + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the WXT and React logos to learn more
-      </p>
-    </>
+    <div className={styles.appBox}>
+      <header className={styles.headerBox}>滚上去</header>
+      <main className={styles.appMain}>
+        <div className={styles.switchWrap}>
+          <div className={styles.switchBox}>
+            <span className={styles.grayColor}>允许在此网站运行</span>
+            <Switch
+              checkedChildren="开启"
+              unCheckedChildren="关闭"
+              checked={switchOpen}
+              onClick={() => setSwitchOpen(!switchOpen)}
+            />
+          </div>
+          <div className={styles.manualBox}>
+            <span className={styles.grayColor}>{domain}</span>{' '}
+            <Button className={styles.manualBtn} type="link">
+              手动操作
+            </Button>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
 

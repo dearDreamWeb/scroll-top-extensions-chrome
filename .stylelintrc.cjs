@@ -31,6 +31,7 @@ module.exports = {
     'value-no-vendor-prefix': true,
     // property-no-vendor-prefix
     'property-no-vendor-prefix': true,
+    'selector-pseudo-class-no-unknown': null,
     // 属性的排序
     'order/properties-order': [
       'position',
