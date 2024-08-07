@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styles from './app.module.less';
+import styles from './contentApp.module.less';
 
 const ContentApp = () => {
   useEffect(() => {

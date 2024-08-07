@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import ContentApp from './App.tsx';
+import ContentApp from './ContentApp';
 
 export default defineContentScript({
   matches: ['<all_urls>'],
