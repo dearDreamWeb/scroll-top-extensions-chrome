@@ -6,15 +6,15 @@ export default defineConfig({
   manifest: {
     permissions: ['storage'],
   },
-  vite(){
+  vite() {
     return {
-      css:{
-        modules:{
+      css: {
+        modules: {
           localsConvention: 'camelCase', // 修改生成的配置对象的key的展示形式(驼峰还是中划线形式)
           scopeBehaviour: 'local',
           generateScopedName: '[local]_[hash:5]',
-        }
-      }
-    }
-  }
+        },
+      },
+    };
+  },
 });

@@ -8,6 +8,7 @@ import Index from './pages/index/Index';
 import ManageList from './pages/manageList/manageList';
 import { Tabs } from 'wxt/browser';
 import useMyContext, { AllowListItem } from './hooks/useMyContext';
+import logoIcon from '../../assets/icon.png';
 
 interface MyContextProps {
   domain: string;
@@ -34,7 +35,10 @@ function App() {
       value={{ domain, currentTab, allowList, changeAllowList, getAllowList }}
     >
       <div className={styles.appBox}>
-        <header className={styles.headerBox}>滚上去</header>
+        <header className={styles.headerBox}>
+          滚上去
+          <img src={logoIcon} width={28} height={28} />
+        </header>
         <main className={styles.appMain}>
           <HashRouter>
             <Routes>
