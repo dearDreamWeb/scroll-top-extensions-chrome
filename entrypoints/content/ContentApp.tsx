@@ -13,7 +13,6 @@ const ContentApp = () => {
 
   const initAllowInfo = async () => {
     const _list = (await storage.getItem<string[]>(ALLOWDOMAINLIST)) || [];
-    console.log('_list', _list, _list.includes(window.location.hostname));
     return _list.includes(window.location.hostname);
   };
 
@@ -33,11 +32,11 @@ const ContentApp = () => {
       return;
     }
     const bodyDom = document.querySelector('body')!;
-    bodyDom.removeEventListener('scroll', scrollHandler);
-    timer.current && clearTimeout(timer.current);
+
+    bodyDom.onscroll = null;
     scrollPosition();
     // 监听滚动条滚动事件
-    bodyDom.addEventListener('scroll', scrollHandler);
+    bodyDom.onscroll = scrollHandler;
   };
 
   useEffect(() => {
@@ -48,6 +47,10 @@ const ContentApp = () => {
         init();
       }
     });
+    return () => {
+      const bodyDom = document.querySelector('body')!;
+      bodyDom.onscroll = null;
+    };
   }, []);
 
   const clickBtnHandler = () => {
@@ -77,7 +80,7 @@ const ContentApp = () => {
       style={{ display: visible ? 'block' : 'none' }}
       onClick={clickBtnHandler}
     >
-      Top
+      滚
     </div>
   );
 };

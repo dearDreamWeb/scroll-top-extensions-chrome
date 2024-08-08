@@ -1,5 +1,9 @@
 .manageListWrap {
   .headerBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     .headerLeftBox {
       display: flex;
       align-items: center;
@@ -11,6 +15,79 @@
         padding: 0 8px 0 0;
         height: 16px;
         gap: 0;
+      }
+    }
+
+    .headerRightBox {
+      color: #acacac;
+    }
+  }
+
+  .main {
+    margin-top: 12px;
+
+    .searchBox {
+      display: flex;
+      align-items: center;
+
+      .searchBtn {
+        margin-left: 16px;
+      }
+    }
+
+    .listBox {
+      overflow: auto;
+      margin-top: 12px;
+      border-radius: 12px;
+      max-height: 290px;
+      background-color: #f5f5f5;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        border-radius: 6px;
+        background: rgb(239 239 239);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background: #bfbfbf;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #333;
+      }
+
+      &::-webkit-scrollbar-corner {
+        background: #179a16;
+      }
+
+      .listItemBox {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+
+        &:hover {
+          background-color: #e6f4ff;
+        }
+
+        .listItemText {
+          overflow: hidden;
+          margin-right: 12px;
+          text-overflow: ellipsis;
+          flex: 1;
+          white-space: nowrap;
+        }
+
+        .listItemIcon {
+          font-size: 16px;
+          cursor: pointer;
+          color: #e43c39;
+        }
       }
     }
   }

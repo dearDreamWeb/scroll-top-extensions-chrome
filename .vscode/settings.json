@@ -56,6 +56,6 @@
   "less.validate": false,
   "scss.validate": false,
   // "stylelint.validate": ["css", "less", "scss", "sass", "stylus", "vue"],
-  "cSpell.words": ["exif", "seedrandom"],
+  "cSpell.words": ["ALLOWDOMAINLIST", "exif", "Popconfirm", "seedrandom"],
   "zenMode.silentNotifications": false
 }

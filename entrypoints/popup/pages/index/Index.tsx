@@ -1,27 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styles from './index.module.less';
 import { Button, message, Switch } from 'antd';
 import { ALLOWDOMAINLIST } from '@/contants';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Tabs } from 'wxt/browser';
+import { MyContext } from '../../App';
 
 const Index = () => {
   const navigate = useNavigate();
+  const contextData = useContext(MyContext);
+  const { domain, currentTab } = contextData;
   const [switchOpen, setSwitchOpen] = useState(false);
-  const [domain, setDomain] = useState('');
   const [allowList, setAllowList] = useState<string[]>([]);
-  const [currentTab, setCurrentTab] = useState<Tabs.Tab>();
-
-  const initTabInfo = async () => {
-    const tabs = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const currentTab = tabs[0]; // 获取当前活动标签页
-    const url = new URL(currentTab.url!); // 解析 URL
-    setCurrentTab(currentTab);
-    setDomain(url.hostname);
-  };
 
   const initInfo = async () => {
     const _list = (await storage.getItem<string[]>(ALLOWDOMAINLIST)) || [];
@@ -29,7 +19,6 @@ const Index = () => {
   };
 
   useEffect(() => {
-    initTabInfo();
     initInfo();
   }, []);
 
