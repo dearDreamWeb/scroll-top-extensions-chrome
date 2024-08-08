@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { useState, useEffect, createContext } from 'react';
 import styles from './app.module.less';
 import { Button, Switch } from 'antd';
@@ -6,39 +7,32 @@ import { HashRouter, Route, Routes, Link } from 'react-router-dom';
 import Index from './pages/index/Index';
 import ManageList from './pages/manageList/manageList';
 import { Tabs } from 'wxt/browser';
+import useMyContext, { AllowListItem } from './hooks/useMyContext';
 
 interface MyContextProps {
   domain: string;
   currentTab: null | Tabs.Tab;
+  allowList: AllowListItem[];
+  changeAllowList: (list: AllowListItem[]) => void;
+  getAllowList: () => Promise<AllowListItem[]>;
 }
 
 export const MyContext = createContext<MyContextProps>({
   domain: '',
   currentTab: null,
+  allowList: [],
+  changeAllowList: (list) => {},
+  getAllowList: async () => [],
 });
 
 function App() {
-  const [domain, setDomain] = useState('');
-  const [currentTab, setCurrentTab] = useState<Tabs.Tab | null>(null);
-  // const [allowList, setAllowList] = useState<string[]>([]);
-
-  const initTabInfo = async () => {
-    const tabs = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const currentTab = tabs[0]; // 获取当前活动标签页
-    const url = new URL(currentTab.url!); // 解析 URL
-    setCurrentTab(currentTab);
-    setDomain(url.hostname);
-  };
-
-  useEffect(() => {
-    initTabInfo();
-  }, []);
+  const { domain, currentTab, allowList, changeAllowList, getAllowList } =
+    useMyContext();
 
   return (
-    <MyContext.Provider value={{ domain, currentTab }}>
+    <MyContext.Provider
+      value={{ domain, currentTab, allowList, changeAllowList, getAllowList }}
+    >
       <div className={styles.appBox}>
         <header className={styles.headerBox}>滚上去</header>
         <main className={styles.appMain}>

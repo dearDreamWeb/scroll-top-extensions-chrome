@@ -1,29 +1,26 @@
 import { useState, useEffect, useContext } from 'react';
 import styles from './index.module.less';
-import { Button, message, Switch } from 'antd';
+import { Button, Switch } from 'antd';
 import { ALLOWDOMAINLIST } from '@/contants';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Tabs } from 'wxt/browser';
+import { useNavigate } from 'react-router-dom';
+
 import { MyContext } from '../../App';
+import { AllowListItem } from '../../hooks/useMyContext';
+import { getUUid } from '../../utils/utils';
 
 const Index = () => {
   const navigate = useNavigate();
-  const contextData = useContext(MyContext);
-  const { domain, currentTab } = contextData;
-  const [switchOpen, setSwitchOpen] = useState(false);
-  const [allowList, setAllowList] = useState<string[]>([]);
+  const { domain, currentTab, allowList, changeAllowList, getAllowList } =
+    useContext(MyContext);
 
-  const initInfo = async () => {
-    const _list = (await storage.getItem<string[]>(ALLOWDOMAINLIST)) || [];
-    setAllowList(_list);
-  };
+  const [switchOpen, setSwitchOpen] = useState(false);
 
   useEffect(() => {
-    initInfo();
+    getAllowList();
   }, []);
 
   useEffect(() => {
-    setSwitchOpen(allowList.includes(domain));
+    setSwitchOpen(allowList.some((item) => item.value === domain));
     if (currentTab?.id) {
       browser.tabs.sendMessage(currentTab.id, { message: 'changeAllow' });
     }
@@ -32,12 +29,15 @@ const Index = () => {
   const switchClick = async () => {
     const value = !switchOpen;
     if (value) {
-      await storage.setItem(ALLOWDOMAINLIST, [...allowList, domain]);
-      initInfo();
-    } else if (allowList.includes(domain)) {
-      const list = allowList.filter((item) => item !== domain);
+      await storage.setItem(ALLOWDOMAINLIST, [
+        { id: getUUid(), value: domain, createdTime: +new Date() },
+        ...allowList,
+      ]);
+      getAllowList();
+    } else if (allowList.some((item) => item.value === domain)) {
+      const list = allowList.filter((item) => item.value !== domain);
       await storage.setItem(ALLOWDOMAINLIST, list);
-      setAllowList(list);
+      changeAllowList(list);
     }
     setSwitchOpen(value);
   };

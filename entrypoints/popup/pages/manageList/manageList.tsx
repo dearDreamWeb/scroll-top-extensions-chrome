@@ -5,18 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Empty, Input, Popconfirm, Tooltip } from 'antd';
 import { ALLOWDOMAINLIST } from '@/contants';
 import { MyContext } from '../../App';
+import { AllowListItem } from '../../hooks/useMyContext';
 
 const ManageList = () => {
   const navigate = useNavigate();
   const contextData = useContext(MyContext);
-  const { domain, currentTab } = contextData;
-  const [allowList, setAllowList] = useState<string[]>([]);
+  const { domain, currentTab, allowList, changeAllowList, getAllowList } =
+    contextData;
   const [searchValue, setSearchValue] = useState('');
-  const [showList, setShowList] = useState<string[]>([]);
+  const [showList, setShowList] = useState<AllowListItem[]>([]);
 
   const initInfo = async () => {
-    const _list = (await storage.getItem<string[]>(ALLOWDOMAINLIST)) || [];
-    setAllowList(_list);
+    const _list = await getAllowList();
     setShowList(_list);
   };
 
@@ -30,12 +30,12 @@ const ManageList = () => {
       return;
     }
     setShowList((list) => {
-      return list.filter((item) => item.includes(searchValue));
+      return list.filter((item) => item?.value?.includes(searchValue));
     });
   };
 
   const confirmDelete = async (text: string) => {
-    const newList = allowList.filter((item) => item !== text);
+    const newList = allowList.filter((item) => item.value !== text);
     await storage.setItem(ALLOWDOMAINLIST, newList);
     initInfo();
     if (currentTab?.id) {
@@ -77,26 +77,28 @@ const ManageList = () => {
         </div>
         <div className={styles.listBox}>
           {showList.length ? (
-            showList.map((item) => (
-              <div key={item} className={styles.listItemBox}>
-                <div className={styles.listItemText}>
-                  <Tooltip title={item} mouseEnterDelay={0.5}>
-                    {item}
-                  </Tooltip>
+            showList
+              .sort((a, b) => b.createdTime - a.createdTime)
+              .map((item) => (
+                <div key={item.id} className={styles.listItemBox}>
+                  <div className={styles.listItemText}>
+                    <Tooltip title={item.value} mouseEnterDelay={0.5}>
+                      {item.value}
+                    </Tooltip>
+                  </div>
+                  <Popconfirm
+                    title="确定要删除吗？"
+                    onConfirm={() => confirmDelete(item.value)}
+                    okText="是"
+                    cancelText="否"
+                  >
+                    <Icon
+                      className={styles.listItemIcon}
+                      icon="material-symbols-light:delete"
+                    />
+                  </Popconfirm>
                 </div>
-                <Popconfirm
-                  title="确定要删除吗？"
-                  onConfirm={() => confirmDelete(item)}
-                  okText="是"
-                  cancelText="否"
-                >
-                  <Icon
-                    className={styles.listItemIcon}
-                    icon="material-symbols-light:delete"
-                  />
-                </Popconfirm>
-              </div>
-            ))
+              ))
           ) : (
             <Empty />
           )}
