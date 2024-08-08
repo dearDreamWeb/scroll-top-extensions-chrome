@@ -1,8 +1,8 @@
 {
   "name": "滚上去",
-  "description": "manifest.json description",
+  "description": "适用于网站返回顶部的扩展插件",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
