@@ -36,7 +36,7 @@
 
 # 第二种方式
 
-`Chrome商店`安装即可，正在审核中，敬请期待。。。
+`Chrome商店`安装即可，点击 [滚上去chrome商店](https://chromewebstore.google.com/detail/%E6%BB%9A%E4%B8%8A%E5%8E%BB/ogafefdnennbjdkiofhgapfbdgjdncpm?hl=en&authuser=0) 进行安装。
 
 # 开发
 环境
