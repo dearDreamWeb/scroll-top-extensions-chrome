@@ -47,12 +47,11 @@ const ContentApp = () => {
       setVisible(false);
       return;
     }
-    const bodyDom = document.querySelector('body')!;
 
-    bodyDom.onscroll = null;
+    document.removeEventListener('scroll', scrollHandler);
     scrollPosition();
     // 监听滚动条滚动事件
-    bodyDom.onscroll = scrollHandler;
+    document.addEventListener('scroll', scrollHandler);
   };
 
   useEffect(() => {
@@ -67,8 +66,7 @@ const ContentApp = () => {
       }
     });
     return () => {
-      const bodyDom = document.querySelector('body')!;
-      bodyDom.onscroll = null;
+      document.removeEventListener('scroll', scrollHandler);
     };
   }, []);
 
@@ -89,6 +87,7 @@ const ContentApp = () => {
       } else {
         timer && clearInterval(timer);
         timer = null;
+        document.scrollingElement!.scrollTop = 0;
       }
     }, 30);
   };

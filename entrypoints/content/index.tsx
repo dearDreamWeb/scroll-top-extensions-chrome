@@ -7,7 +7,7 @@ export default defineContentScript({
 
   async main(ctx) {
     const ui = await createShadowRootUi(ctx, {
-      name: 'wxt-react-example',
+      name: 'scroll-top-element',
       position: 'modal',
       anchor: 'body',
       append: 'first',
