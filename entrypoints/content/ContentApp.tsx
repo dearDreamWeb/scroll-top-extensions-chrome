@@ -3,6 +3,8 @@ import styles from './contentApp.module.less';
 import { ALLOWDOMAINLIST, CONFIGSETTINGS } from '@/contants';
 import { AllowListItem } from '../popup/hooks/useMyContext';
 import { ConfigSettings } from '../popup/pages/index/Index';
+import RocketCanvas from './components/rocketCanvas/rocketCanvas';
+
 // material-symbols-light:rocket
 const ContentApp = () => {
   const [visible, setVisible] = useState(false);
@@ -11,10 +13,17 @@ const ContentApp = () => {
     styleType: 1,
     text: '滚',
   });
+  const [speedProcess, setSpeedProcess] = useState(0);
+  const [startAnimation, setStartAnimation] = useState(false);
+  const [hoverWrapper, setHoverWrapper] = useState(false);
 
   const scrollPosition = () => {
     let top = document.documentElement.scrollTop;
-    setVisible(top > 0);
+    const show = top > 0;
+    if (!show) {
+      setStartAnimation(false);
+    }
+    setVisible(show);
   };
 
   const initAllowInfo = async () => {
@@ -71,6 +80,7 @@ const ContentApp = () => {
   }, []);
 
   const clickBtnHandler = () => {
+    setStartAnimation(true);
     let scrollH = document.scrollingElement!.scrollTop;
     let timer: null | NodeJS.Timeout = null;
     timer && clearInterval(timer);
@@ -79,7 +89,9 @@ const ContentApp = () => {
         let speed = 0;
         if (scrollH >= 100) {
           speed = scrollH / 8;
+          setSpeedProcess(1);
         } else {
+          setSpeedProcess(0);
           speed = scrollH / 4;
         }
         scrollH -= speed;
@@ -110,8 +122,18 @@ const ContentApp = () => {
       className={`${styles.scrollTopBox} ${styles[previewStyle]}`}
       style={{ display: visible ? 'block' : 'none' }}
       onClick={clickBtnHandler}
+      onMouseEnter={() => setHoverWrapper(true)}
+      onMouseLeave={() => setHoverWrapper(false)}
     >
-      {config.styleType !== 3 ? config.text : ''}
+      {config.styleType !== 3 ? (
+        config.text
+      ) : (
+        <RocketCanvas
+          visible={visible}
+          speedProcess={speedProcess}
+          startAnimation={hoverWrapper || startAnimation}
+        />
+      )}
     </div>
   );
 };
