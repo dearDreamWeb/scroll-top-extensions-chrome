@@ -100,7 +100,7 @@ const ManageList = () => {
                 </div>
               ))
           ) : (
-            <Empty />
+            <Empty description="暂无数据" />
           )}
         </div>
       </main>

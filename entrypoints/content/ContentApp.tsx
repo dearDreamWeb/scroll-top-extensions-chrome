@@ -10,7 +10,7 @@ const ContentApp = () => {
   const [visible, setVisible] = useState(false);
   const timer = useRef<null | NodeJS.Timeout>(null);
   const [config, setConfig] = useState<ConfigSettings>({
-    styleType: 1,
+    styleType: 3,
     text: '滚',
   });
   const [speedProcess, setSpeedProcess] = useState(0);

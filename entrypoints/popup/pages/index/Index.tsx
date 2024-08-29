@@ -27,7 +27,7 @@ const Index = () => {
 
   const [switchOpen, setSwitchOpen] = useState(false);
   const [config, setConfig] = useState<ConfigSettings>({
-    styleType: 1,
+    styleType: 3,
     text: '滚',
   });
   const textInputRef = useRef<InputRef>(null);
@@ -148,19 +148,21 @@ const Index = () => {
             </div>
           </div>
         </div>
-        <div className={styles.configTextWrap}>
-          <div className={styles.configSubTitle}>文案样式</div>
-          <div className={styles.configInputBox}>
-            <Input ref={textInputRef} defaultValue={config.text} />
-            <Button
-              type="primary"
-              className={styles.modifyBtn}
-              onClick={modifyBtnClick}
-            >
-              修改
-            </Button>
+        {config.styleType !== 3 && (
+          <div className={styles.configTextWrap}>
+            <div className={styles.configSubTitle}>文案样式</div>
+            <div className={styles.configInputBox}>
+              <Input ref={textInputRef} defaultValue={config.text} />
+              <Button
+                type="primary"
+                className={styles.modifyBtn}
+                onClick={modifyBtnClick}
+              >
+                修改
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
